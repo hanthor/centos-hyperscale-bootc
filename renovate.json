@@ -22,7 +22,7 @@
       ],
       "datasourceTemplate": "custom.c9s-compose",
       "depNameTemplate": "CentOS-Stream-9",
-      "versioningTemplate": "regex:^CentOS-Stream-9-(?<major>\\d{8})\\.d\\.0$"
+      "versioningTemplate": "regex:^CentOS-Stream-9-(?<major>\\d{8})\\.0$"
     }
   ],
   "packageRules": [
