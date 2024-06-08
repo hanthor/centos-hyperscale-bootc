@@ -39,9 +39,9 @@ spec:
         resolver: git
         params:
           - name: url
-            value: https://github.com/centos/centos-bootc/
+            value: https://gitlab.com/redhat/centos-stream/containers/bootc
           - name: revision
-            value: main
+            value: c10s
           - name: pathInRepo
             value: .tekton/testing-farm.yaml
       params:
