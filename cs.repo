@@ -1,0 +1,15 @@
+[baseos]
+name=CentOS Stream - BaseOS
+baseurl=https://composes.stream.centos.org/stream-10/production/CentOS-Stream-10-20240604.2/compose/BaseOS/$basearch/os
+gpgcheck=1
+repo_gpgcheck=0
+enabled=1
+gpgkey=file:///usr/share/distribution-gpg-keys/centos/RPM-GPG-KEY-CentOS-Official
+
+[appstream]
+name=CentOS Stream - AppStream
+baseurl=https://composes.stream.centos.org/stream-10/production/CentOS-Stream-10-20240604.2/compose/AppStream/$basearch/os
+gpgcheck=1
+repo_gpgcheck=0
+enabled=1
+gpgkey=file:///usr/share/distribution-gpg-keys/centos/RPM-GPG-KEY-CentOS-Official

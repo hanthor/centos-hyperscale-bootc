@@ -1,6 +1,0 @@
-releasever: stream9
-variables:
-  distro: "stream9"
-
-include:
-  - centos-stream-common.yaml

@@ -2,9 +2,9 @@
     "Labels": {
         "containers.bootc": "1",
         "bootc.diskimage-builder": "quay.io/centos-bootc/bootc-image-builder",
-        "redhat.compose-id": "CentOS-Stream-9-20240603.0",
+        "redhat.compose-id": "CentOS-Stream-10-20240604.2",
         "redhat.id": "centos",
-        "redhat.version-id": "9"
+        "redhat.version-id": "10"
     },
     "StopSignal": "SIGRTMIN+3"
 }

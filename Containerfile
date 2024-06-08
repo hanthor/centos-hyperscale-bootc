@@ -3,7 +3,7 @@
 FROM quay.io/centos/centos:stream10-development as repos
 
 FROM quay.io/centos-bootc/bootc-image-builder:latest as builder
-ARG MANIFEST=centos-stream-10-tier1.yaml
+ARG MANIFEST=centos-stream-tier1.yaml
 RUN --mount=type=bind,rw=true,src=.,dst=/buildcontext,bind-propagation=shared rm -vf /buildcontext/*.repo
 # XXX: we should just make sure our in-tree c9s repo points to the c9s paths and doesn't require vars to avoid these steps entirely
 COPY --from=repos /etc/dnf/vars /etc/dnf/vars
@@ -14,7 +14,7 @@ COPY --from=repos /etc/dnf/vars /etc/dnf/vars
 COPY . /src
 WORKDIR /src
 RUN rm -vf /src/*.repo
-COPY --from=repos /etc/yum.repos.d/centos.repo c10s.repo
+COPY --from=repos /etc/yum.repos.d/centos.repo cs.repo
 COPY --from=repos /etc/pki/rpm-gpg/RPM-GPG-KEY-centosofficial /etc/pki/rpm-gpg
 # rpm-ostree doesn't honor /etc/dnf/vars right now
 RUN for n in $(ls /etc/dnf/vars); do v=$(cat /etc/dnf/vars/$n); sed -ie s,\$${n},$v, c10s.repo; done
