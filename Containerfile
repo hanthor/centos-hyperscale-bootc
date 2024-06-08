@@ -1,11 +1,9 @@
-# See Containerfile.centos-stream-9 for more information.
-
 FROM quay.io/centos/centos:stream10-development as repos
 
 FROM quay.io/centos-bootc/bootc-image-builder:latest as builder
 ARG MANIFEST=centos-stream-tier1.yaml
 RUN --mount=type=bind,rw=true,src=.,dst=/buildcontext,bind-propagation=shared rm -vf /buildcontext/*.repo
-# XXX: we should just make sure our in-tree c9s repo points to the c9s paths and doesn't require vars to avoid these steps entirely
+# XXX: we should just make sure our in-tree c10s repo points to the c10s paths and doesn't require vars to avoid these steps entirely
 COPY --from=repos /etc/dnf/vars /etc/dnf/vars
 # The input git repository has .repo files committed to git rpm-ostree has historically
 # emphasized that.  But here, we are fetching the repos from the container base image.
@@ -17,7 +15,7 @@ RUN rm -vf /src/*.repo
 COPY --from=repos /etc/yum.repos.d/centos.repo cs.repo
 COPY --from=repos /etc/pki/rpm-gpg/RPM-GPG-KEY-centosofficial /etc/pki/rpm-gpg
 # rpm-ostree doesn't honor /etc/dnf/vars right now
-RUN for n in $(ls /etc/dnf/vars); do v=$(cat /etc/dnf/vars/$n); sed -ie s,\$${n},$v, c10s.repo; done
+RUN for n in $(ls /etc/dnf/vars); do v=$(cat /etc/dnf/vars/$n); sed -ie s,\$${n},$v, cs.repo; done
 RUN --mount=type=cache,target=/workdir --mount=type=bind,rw=true,src=.,dst=/buildcontext,bind-propagation=shared \
     rpm-ostree compose image --image-config centos-bootc-config.json \
      --cachedir=/workdir --format=ociarchive --initialize ${MANIFEST} /buildcontext/out.ociarchive
