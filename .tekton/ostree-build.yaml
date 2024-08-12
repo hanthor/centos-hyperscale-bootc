@@ -256,7 +256,7 @@ spec:
           - name: name
             value: build-image-manifest
           - name: bundle
-            value: quay.io/redhat-appstudio-tekton-catalog/task-build-image-manifest:0.1@sha256:399ab5004f27d7ff836f8c838b589262299e1e4bdd4670993b9d0c981b274d86
+            value: quay.io/redhat-appstudio-tekton-catalog/task-build-image-manifest:0.1@sha256:e22d1af2d33cea131f3f6ce6ba037da1e888e808ff72fafb58458ca318dff3ad
           - name: kind
             value: task
         resolver: bundles
@@ -340,7 +340,7 @@ spec:
           - name: name
             value: sast-snyk-check
           - name: bundle
-            value: quay.io/redhat-appstudio-tekton-catalog/task-sast-snyk-check:0.1@sha256:91d32451e6e62d8a7b56d1ad389a1c0a45cdb7a35a4483e1f44224b0be2420df
+            value: quay.io/redhat-appstudio-tekton-catalog/task-sast-snyk-check:0.1@sha256:1ef6a3ab9c4ba9e735c6924008714ef2a873597837be9d4d927522d5d733bd07
           - name: kind
             value: task
         resolver: bundles
