@@ -8,9 +8,21 @@ as a git submodule, and defines the CentOS Stream images.
 - <https://docs.fedoraproject.org/en-US/bootc/>
 - <https://bootc-org.gitlab.io/documentation/>
 
+## Building locally
+
+As this repository uses [git submodules](https://git-scm.com/book/en/v2/Git-Tools-Submodules) you must initialize them:
+
+`git submodule update --init --recursive`
+
+After that, you should be able to build with e.g.:
+
+`podman build --security-opt=label=disable --cap-add=all --device /dev/fuse -t localhost/c9s .`
+
+For more on why these capabilities are required, see the upstream docs in <https://gitlab.com/fedora/bootc/base-images>, especially the copy of `Containerfile` there.
+
 ## Build system information
 
-The build system is maintained [in a Konflux pipeline](https://console.redhat.com/preview/application-pipeline/workspaces/centos-bootc/applications/centos-bootc-c10s).
+The production build system is maintained [in a Konflux pipeline](https://console.redhat.com/preview/application-pipeline/workspaces/centos-bootc/applications/centos-bootc-c10s).
 
 ## Badges
 
