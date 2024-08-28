@@ -10,6 +10,7 @@ COPY --from=repos /etc/dnf/vars /etc/dnf/vars
 # So copy the source, and delete the hardcoded ones in git, and use the container base
 # image ones.  We can drop the ones commited to git when we hard switch to Containerfile.
 COPY . /src
+RUN /src/preflight.sh
 WORKDIR /src
 RUN rm -vf /src/*.repo
 COPY --from=repos /etc/yum.repos.d/centos.repo cs.repo
