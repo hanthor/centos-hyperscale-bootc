@@ -37,7 +37,7 @@ spec:
   pipelineRef:
     name: ostree-build
   workspaces:
-    - name: workspace
+    - name: workspace-amd64
       volumeClaimTemplate:
         metadata:
           creationTimestamp: null
@@ -49,6 +49,28 @@ spec:
               storage: 1Gi
         status: {}
     - name: workspace-arm64
+      volumeClaimTemplate:
+        metadata:
+          creationTimestamp: null
+        spec:
+          accessModes:
+            - ReadWriteOnce
+          resources:
+            requests:
+              storage: 2Gi
+        status: {}
+    - name: workspace-ppc64le
+      volumeClaimTemplate:
+        metadata:
+          creationTimestamp: null
+        spec:
+          accessModes:
+            - ReadWriteOnce
+          resources:
+            requests:
+              storage: 2Gi
+        status: {}
+    - name: workspace-s390x
       volumeClaimTemplate:
         metadata:
           creationTimestamp: null
