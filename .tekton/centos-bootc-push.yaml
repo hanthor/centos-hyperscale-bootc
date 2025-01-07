@@ -22,8 +22,6 @@ spec:
     tasks: "4h0m0s"
     finally: "2h0m0s"
   params:
-    - name: image-file
-      value: centos-stream-tier1.yaml
     - name: git-url
       value: "{{repo_url}}"
     - name: output-image
@@ -32,8 +30,6 @@ spec:
       value: .
     - name: revision
       value: "{{revision}}"
-    - name: config-file
-      value: "centos-bootc-config.json"
   pipelineRef:
     name: ostree-build
   workspaces:
