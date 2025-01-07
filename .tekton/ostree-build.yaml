@@ -40,11 +40,6 @@ spec:
         to build image.
       name: path-context
       type: string
-    - description:
-        Path to the image file inside the context specified by parameter
-        path-context
-      name: image-file
-      type: string
     - default: "false"
       description: Force rebuild image
       name: rebuild
@@ -74,10 +69,14 @@ spec:
         Image tag expiration time, time values could be something like
         1h, 2d, 3w for hours, days, and weeks, respectively.
       name: image-expires-after
-    - name: config-file
-      description: config file to use for rpm-ostree tool
+    - default: 'Containerfile'
+      description: Path to the Dockerfile to build.
+      name: dockerfile
       type: string
-      default: ""
+    - default: "true"
+      description: Whether to enable privileged mode
+      name: privileged-nested
+      type: string
   results:
     - description: ""
       name: IMAGE_URL
@@ -195,8 +194,8 @@ spec:
       params:
         - name: IMAGE
           value: $(params.output-image)-amd64
-        - name: IMAGE_FILE
-          value: $(params.image-file)
+        - name: DOCKERFILE
+          value: $(params.dockerfile)
         - name: CONTEXT
           value: $(params.path-context)
         - name: IMAGE_EXPIRES_AFTER
@@ -205,18 +204,19 @@ spec:
           value: $(tasks.clone-repository-amd64.results.commit)
         - name: PLATFORM
           value: linux/amd64
-        - name: BUILDER_IMAGE
-          value: quay.io/centos-bootc/bootc-image-builder:latest
-        - name: CONFIG_FILE
-          value: $(params.config-file)
+        - name: PREFETCH_INPUT
+          value: $(params.prefetch-input)
+        # NOTE: This can be dropped if/when the container build no longer requires privs
+        - name: PRIVILEGED_NESTED
+          value: $(params.privileged-nested)
       runAfter:
         - clone-repository-amd64
       taskRef:
         params:
           - name: name
-            value: rpm-ostree
+            value: buildah-remote
           - name: bundle
-            value: quay.io/redhat-appstudio-tekton-catalog/task-rpm-ostree:0.2@sha256:e998bec9705690f389f96383b6ef41ae59d483e8176e9c6679a86488b6853166
+            value: quay.io/konflux-ci/tekton-catalog/task-buildah-remote:0.3@sha256:a0104155e407f4402d5f2f5a6300bce6ba227a051aa3e079a46739c4b34ddadf
           - name: kind
             value: task
         resolver: bundles
@@ -232,8 +232,8 @@ spec:
       params:
         - name: IMAGE
           value: $(params.output-image)-arm64
-        - name: IMAGE_FILE
-          value: $(params.image-file)
+        - name: DOCKERFILE
+          value: $(params.dockerfile)
         - name: CONTEXT
           value: $(params.path-context)
         - name: IMAGE_EXPIRES_AFTER
@@ -242,18 +242,19 @@ spec:
           value: $(tasks.clone-repository-arm64.results.commit)
         - name: PLATFORM
           value: linux/arm64
-        - name: BUILDER_IMAGE
-          value: quay.io/centos-bootc/bootc-image-builder:latest
-        - name: CONFIG_FILE
-          value: $(params.config-file)
+        - name: PREFETCH_INPUT
+          value: $(params.prefetch-input)
+        # NOTE: This can be dropped if/when the container build no longer requires privs
+        - name: PRIVILEGED_NESTED
+          value: $(params.privileged-nested)
       runAfter:
         - clone-repository-arm64
       taskRef:
         params:
           - name: name
-            value: rpm-ostree
+            value: buildah-remote
           - name: bundle
-            value: quay.io/redhat-appstudio-tekton-catalog/task-rpm-ostree:0.2@sha256:e998bec9705690f389f96383b6ef41ae59d483e8176e9c6679a86488b6853166
+            value: quay.io/konflux-ci/tekton-catalog/task-buildah-remote:0.3@sha256:a0104155e407f4402d5f2f5a6300bce6ba227a051aa3e079a46739c4b34ddadf
           - name: kind
             value: task
         resolver: bundles
@@ -269,8 +270,8 @@ spec:
       params:
         - name: IMAGE
           value: $(params.output-image)-s390x
-        - name: IMAGE_FILE
-          value: $(params.image-file)
+        - name: DOCKERFILE
+          value: $(params.dockerfile)
         - name: CONTEXT
           value: $(params.path-context)
         - name: IMAGE_EXPIRES_AFTER
@@ -279,18 +280,19 @@ spec:
           value: $(tasks.clone-repository-s390x.results.commit)
         - name: PLATFORM
           value: linux/s390x
-        - name: BUILDER_IMAGE
-          value: quay.io/centos-bootc/bootc-image-builder:latest
-        - name: CONFIG_FILE
-          value: $(params.config-file)
+        - name: PREFETCH_INPUT
+          value: $(params.prefetch-input)
+        # NOTE: This can be dropped if/when the container build no longer requires privs
+        - name: PRIVILEGED_NESTED
+          value: $(params.privileged-nested)
       runAfter:
         - clone-repository-s390x
       taskRef:
         params:
           - name: name
-            value: rpm-ostree
+            value: buildah-remote
           - name: bundle
-            value: quay.io/redhat-appstudio-tekton-catalog/task-rpm-ostree:0.2@sha256:e998bec9705690f389f96383b6ef41ae59d483e8176e9c6679a86488b6853166
+            value: quay.io/konflux-ci/tekton-catalog/task-buildah-remote:0.3@sha256:a0104155e407f4402d5f2f5a6300bce6ba227a051aa3e079a46739c4b34ddadf
           - name: kind
             value: task
         resolver: bundles

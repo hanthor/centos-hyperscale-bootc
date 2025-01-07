@@ -14,7 +14,7 @@ RUN /src/preflight.sh
 WORKDIR /src
 RUN rm -vf /src/*.repo
 COPY --from=repos /etc/yum.repos.d/centos.repo cs.repo
-COPY --from=repos /etc/pki/rpm-gpg/RPM-GPG-KEY-centosofficial /etc/pki/rpm-gpg
+COPY --from=repos /etc/pki/rpm-gpg/RPM-GPG-KEY-centosofficial* /etc/pki/rpm-gpg
 # rpm-ostree doesn't honor /etc/dnf/vars right now
 RUN for n in $(ls /etc/dnf/vars); do v=$(cat /etc/dnf/vars/$n); sed -ie s,\$${n},$v, cs.repo; done
 RUN --mount=type=cache,target=/workdir --mount=type=bind,rw=true,src=.,dst=/buildcontext,bind-propagation=shared \
