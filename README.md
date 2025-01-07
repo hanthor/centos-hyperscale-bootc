@@ -6,7 +6,6 @@ as a git submodule, and defines the CentOS Stream images.
 ## More information
 
 - <https://docs.fedoraproject.org/en-US/bootc/>
-- <https://bootc-org.gitlab.io/documentation/>
 
 ## Building locally
 
