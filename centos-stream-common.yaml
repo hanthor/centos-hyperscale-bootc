@@ -26,3 +26,14 @@ postprocess:
     set -xeuo pipefail
     ln -sr /run/secrets/etc-pki-entitlement /etc/pki/entitlement-host
     ln -sr /run/secrets/rhsm /etc/rhsm-host
+  # Enable bootc rhsm fact publishing
+  - |
+    #!/usr/bin/bash
+    set -xeuo pipefail
+    cat > /usr/lib/systemd/system-preset/80-bootc.preset << EOF
+    enable bootc-publish-rhsm-facts.service
+    EOF
+    # The base fedora tier-1 manifest also does this, but those
+    # postprocess scripts run before ours so we need to do it again to
+    # pick up our presets
+    systemctl preset-all
