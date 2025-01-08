@@ -163,6 +163,33 @@ spec:
           workspace: workspace-arm64
         - name: basic-auth
           workspace: git-auth
+    - name: clone-repository-ppc64le
+      params:
+        - name: url
+          value: $(params.git-url)
+        - name: revision
+          value: $(params.revision)
+      runAfter:
+        - init
+      taskRef:
+        params:
+          - name: name
+            value: git-clone
+          - name: bundle
+            value: quay.io/redhat-appstudio-tekton-catalog/task-git-clone:0.1@sha256:a3e22f57fbf8398fbe93fbeeb38e03756cd073182d6d109fe8e8cde57b561603
+          - name: kind
+            value: task
+        resolver: bundles
+      when:
+        - input: $(tasks.init.results.build)
+          operator: in
+          values:
+            - "true"
+      workspaces:
+        - name: output
+          workspace: workspace-ppc64le
+        - name: basic-auth
+          workspace: git-auth
     - name: clone-repository-s390x
       params:
         - name: url
@@ -266,6 +293,44 @@ spec:
       workspaces:
         - name: source
           workspace: workspace-arm64
+    - name: build-container-ppc64le
+      params:
+        - name: IMAGE
+          value: $(params.output-image)-ppc64le
+        - name: DOCKERFILE
+          value: $(params.dockerfile)
+        - name: CONTEXT
+          value: $(params.path-context)
+        - name: IMAGE_EXPIRES_AFTER
+          value: $(params.image-expires-after)
+        - name: COMMIT_SHA
+          value: $(tasks.clone-repository-ppc64le.results.commit)
+        - name: PLATFORM
+          value: linux/s390x
+        - name: PREFETCH_INPUT
+          value: $(params.prefetch-input)
+        # NOTE: This can be dropped if/when the container build no longer requires privs
+        - name: PRIVILEGED_NESTED
+          value: $(params.privileged-nested)
+      runAfter:
+        - clone-repository-ppc64le
+      taskRef:
+        params:
+          - name: name
+            value: buildah-remote
+          - name: bundle
+            value: quay.io/konflux-ci/tekton-catalog/task-buildah-remote:0.3@sha256:a0104155e407f4402d5f2f5a6300bce6ba227a051aa3e079a46739c4b34ddadf
+          - name: kind
+            value: task
+        resolver: bundles
+      when:
+        - input: $(tasks.init.results.build)
+          operator: in
+          values:
+            - "true"
+      workspaces:
+        - name: source
+          workspace: workspace-ppc64le
     - name: build-container-s390x
       params:
         - name: IMAGE
@@ -314,10 +379,12 @@ spec:
           value:
             - $(tasks.build-container-amd64.results.IMAGE_URL)@$(tasks.build-container-amd64.results.IMAGE_DIGEST)
             - $(tasks.build-container-arm64.results.IMAGE_URL)@$(tasks.build-container-arm64.results.IMAGE_DIGEST)
+            - $(tasks.build-container-ppc64le.results.IMAGE_URL)@$(tasks.build-container-ppc64le.results.IMAGE_DIGEST)
             - $(tasks.build-container-s390x.results.IMAGE_URL)@$(tasks.build-container-s390x.results.IMAGE_DIGEST)
       runAfter:
         - build-container-amd64
         - build-container-arm64
+        - build-container-ppc64le
         - build-container-s390x
       taskRef:
         params:
