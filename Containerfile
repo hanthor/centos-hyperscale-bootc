@@ -25,3 +25,11 @@ FROM oci-archive:./out.ociarchive
 # Need to reference builder here to force ordering. But since we have to run
 # something anyway, we might as well cleanup after ourselves.
 RUN --mount=type=bind,from=builder,src=.,target=/var/tmp --mount=type=bind,rw=true,src=.,dst=/buildcontext,bind-propagation=shared rm /buildcontext/out.ociarchive
+
+# This is updated by renovate
+LABEL redhat.compose-id="CentOS-Stream-10-20250106.0"
+
+LABEL containers.bootc="1" \
+      bootc.diskimage-builder="quay.io/centos-bootc/bootc-image-builder" \
+      redhat.id="centos" \
+      redhat.version-id="10"
