@@ -31,7 +31,7 @@ spec:
     - name: revision
       value: "{{revision}}"
   pipelineRef:
-    name: ostree-build
+    name: buildah-build
   workspaces:
     - name: workspace-amd64
       volumeClaimTemplate:

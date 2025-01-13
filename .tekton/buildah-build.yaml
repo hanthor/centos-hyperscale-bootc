@@ -1,7 +1,7 @@
 apiVersion: tekton.dev/v1
 kind: Pipeline
 metadata:
-  name: ostree-build
+  name: buildah-build
 spec:
   finally:
     - name: show-summary
