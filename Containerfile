@@ -1,6 +1,7 @@
-FROM quay.io/centos/centos:stream10-development as repos
+FROM quay.io/centos/centos:stream10 as repos
 
-FROM quay.io/centos-bootc/bootc-image-builder:latest as builder
+FROM quay.io/centos/centos:stream10 as builder
+RUN dnf -y install rpm-ostree selinux-policy-targeted
 ARG MANIFEST=centos-stream-tier1.yaml
 RUN --mount=type=bind,rw=true,src=.,dst=/buildcontext,bind-propagation=shared rm -vf /buildcontext/*.repo
 # XXX: we should just make sure our in-tree c10s repo points to the c10s paths and doesn't require vars to avoid these steps entirely
