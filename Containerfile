@@ -1,26 +1,16 @@
-FROM quay.io/centos/centos:stream10 as repos
-
 FROM quay.io/centos/centos:stream10 as builder
-RUN dnf -y install rpm-ostree selinux-policy-targeted
+# skip gpgcheck due to gpgcheck="" in cachi2.repo
+RUN dnf -y --nogpgcheck install rpm-ostree selinux-policy-targeted
 ARG MANIFEST=centos-stream-tier1.yaml
-RUN --mount=type=bind,rw=true,src=.,dst=/buildcontext,bind-propagation=shared rm -vf /buildcontext/*.repo
-# XXX: we should just make sure our in-tree c10s repo points to the c10s paths and doesn't require vars to avoid these steps entirely
-COPY --from=repos /etc/dnf/vars /etc/dnf/vars
-# The input git repository has .repo files committed to git rpm-ostree has historically
-# emphasized that.  But here, we are fetching the repos from the container base image.
-# So copy the source, and delete the hardcoded ones in git, and use the container base
-# image ones.  We can drop the ones commited to git when we hard switch to Containerfile.
 COPY . /src
 RUN /src/preflight.sh
 WORKDIR /src
 RUN rm -vf /src/*.repo
-COPY --from=repos /etc/yum.repos.d/centos.repo cs.repo
-COPY --from=repos /etc/pki/rpm-gpg/RPM-GPG-KEY-centosofficial* /etc/pki/rpm-gpg
-# rpm-ostree doesn't honor /etc/dnf/vars right now
-RUN for n in $(ls /etc/dnf/vars); do v=$(cat /etc/dnf/vars/$n); sed -ie s,\$${n},$v, cs.repo; done
+# make locally cached deps cachi2.repo available in the build context
+RUN cp -v /etc/yum.repos.d/*.repo /src
+# ``rpm-ostree compose`` looks for repofiles in that same directory as the MANIFEST file is in
 RUN --mount=type=cache,target=/workdir --mount=type=bind,rw=true,src=.,dst=/buildcontext,bind-propagation=shared \
-    rpm-ostree compose image --image-config centos-bootc-config.json \
-     --cachedir=/workdir --format=ociarchive --initialize ${MANIFEST} /buildcontext/out.ociarchive
+      rpm-ostree compose image --cachedir=/workdir --format=ociarchive --initialize --image-config=centos-bootc-config.json ${MANIFEST} /buildcontext/out.ociarchive
 
 FROM oci-archive:./out.ociarchive
 # Need to reference builder here to force ordering. But since we have to run
