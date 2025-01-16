@@ -1,0 +1,12 @@
+contentOrigin:
+  repofiles:
+    - ./cs.repo
+    - ./cs-source.repo
+packages: []  # Defer to the tree file
+arches:
+  - x86_64
+  - aarch64
+  - ppc64le
+  - s390x
+context:
+    rpmOstreeTreefile: centos-stream-tier1.yaml

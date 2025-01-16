@@ -4,7 +4,7 @@ baseurl=https://composes.stream.centos.org/stream-10/production/CentOS-Stream-10
 gpgcheck=1
 repo_gpgcheck=0
 enabled=1
-gpgkey=file:///usr/share/distribution-gpg-keys/centos/RPM-GPG-KEY-CentOS-Official
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-centosofficial-SHA256
 
 [appstream]
 name=CentOS Stream - AppStream
@@ -12,4 +12,4 @@ baseurl=https://composes.stream.centos.org/stream-10/production/CentOS-Stream-10
 gpgcheck=1
 repo_gpgcheck=0
 enabled=1
-gpgkey=file:///usr/share/distribution-gpg-keys/centos/RPM-GPG-KEY-CentOS-Official
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-centosofficial-SHA256
