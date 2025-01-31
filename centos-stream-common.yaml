@@ -1,6 +1,7 @@
 repos:
   - baseos
   - appstream
+  - epel
 
 packages:
  # To support builds *from* this host using entitled content
@@ -10,13 +11,13 @@ packages:
 
 # Configuration for bootc
 postprocess:
-  # XFS is our default filesystem
+  # btrfs is our default filesystem
   - |
     #!/usr/bin/env bash
     mkdir -p /usr/lib/bootc/install/
     cat > /usr/lib/bootc/install/20-rhel.toml << EOF
     [install]
-    root-fs-type = "xfs"
+    root-fs-type = "btrfs"
     EOF
   # These enable librhsm which enables host subscriptions to work in containers
   # https://github.com/rpm-software-management/librhsm/blob/fcd972cbe7c8a3907ba9f091cd082b1090231492/rhsm/rhsm-context.c#L30

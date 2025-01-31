@@ -13,3 +13,33 @@ gpgcheck=1
 repo_gpgcheck=0
 enabled=1
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-centosofficial-SHA256
+
+name=CentOS Stream $releasever - Hyperscale
+metalink=https://mirrors.centos.org/metalink?repo=centos-hyperscale-sig-packages-main-$stream&arch=$basearch&protocol=https,http
+#baseurl=http://mirror.stream.centos.org/SIGs/$stream/hyperscale/$basearch/packages-main/
+gpgcheck=1
+priority=50
+enabled=1
+countme=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-HyperScale
+
+[centos-hyperscale-kernel-source]
+name=CentOS Stream $releasever - Hyperscale Kernel - Source
+metalink=https://mirrors.centos.org/metalink?repo=centos-hyperscale-sig-packages-kernel-source-$stream&arch=source&protocol=https,http
+#baseurl=http://mirror.stream.centos.org/SIGs/$stream/hyperscale/source/packages-kernel/
+gpgcheck=1
+enabled=0
+priority=50
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-HyperScale
+
+[epel-source]
+name=Extra Packages for Enterprise Linux $releasever - $basearch - Source
+# It is much more secure to use the metalink, but if you wish to use a local mirror
+# place its address here.
+#baseurl=https://download.example/pub/epel/$releasever_major${releasever_minor:+.$releasever_minor}/Everything/source/tree/
+metalink=https://mirrors.fedoraproject.org/metalink?repo=epel-source-$releasever_major${releasever_minor:+.$releasever_minor}&arch=$basearch
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-$releasever_major
+gpgcheck=1
+repo_gpgcheck=0
+metadata_expire=24h
+enabled=0

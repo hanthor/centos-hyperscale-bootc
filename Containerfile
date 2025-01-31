@@ -1,6 +1,7 @@
-FROM quay.io/centos/centos:stream10 as builder
+FROM quay.io/jreilly112/centos:stream10-hyperscale as builder
 # skip gpgcheck due to gpgcheck="" in cachi2.repo
-RUN dnf -y --nogpgcheck install rpm-ostree selinux-policy-targeted
+USER root
+RUN dnf -y --nogpgcheck install rpm-ostree selinux-policy-targeted epel-release
 ARG MANIFEST=centos-stream-tier1.yaml
 COPY . /src
 RUN /src/preflight.sh
