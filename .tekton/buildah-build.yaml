@@ -296,7 +296,7 @@ spec:
         - name: PRIVILEGED_NESTED
           value: $(params.privileged-nested)
         - name: PLATFORM
-          value: linux/s390x
+          value: linux/ppc64le
         - name: SOURCE_ARTIFACT
           value: $(tasks.prefetch-dependencies.results.SOURCE_ARTIFACT)
         - name: CACHI2_ARTIFACT
