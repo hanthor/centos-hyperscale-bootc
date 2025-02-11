@@ -7,6 +7,8 @@ packages:
   - subscription-manager
  # https://issues.redhat.com/browse/RHEL-35291
   - dnf-yum
+ # dnf-bootc depends on libraries DNF needs for bootc integration
+  - dnf-bootc
 
 # Configuration for bootc
 postprocess:
