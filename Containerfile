@@ -18,7 +18,7 @@ FROM oci-archive:./out.ociarchive
 RUN --mount=type=bind,from=builder,src=.,target=/var/tmp --mount=type=bind,rw=true,src=.,dst=/buildcontext,bind-propagation=shared rm /buildcontext/out.ociarchive
 
 # This is updated by renovate
-LABEL redhat.compose-id="CentOS-Stream-10-20250217.0"
+LABEL redhat.compose-id="CentOS-Stream-10-20250224.0"
 
 LABEL containers.bootc="1" \
       bootc.diskimage-builder="quay.io/centos-bootc/bootc-image-builder" \
