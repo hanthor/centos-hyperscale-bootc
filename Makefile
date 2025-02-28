@@ -6,6 +6,5 @@ build:
 lockfile:
 ifdef CI
 	git submodule update --init --recursive
-	git submodule update --remote --merge
 endif
 	rpm-lockfile-prototype rpms.in.yaml
