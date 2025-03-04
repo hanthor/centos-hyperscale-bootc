@@ -3,6 +3,10 @@
 set -xeuo pipefail
 # Some sanity checks
 ./preflight.sh
+
+# Update
+rpm -Uvh https://kojihub.stream.centos.org/kojifiles/vol/koji02/packages/rpm-ostree/2025.6/1.el10/$(arch)/rpm-ostree-{,libs-,}2025.6-1.el10.$(arch).rpm
+
 # Put our manifests into the builder image in the same location they'll be in the
 # final image.
 ./install-manifests
