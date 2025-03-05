@@ -1,0 +1,14 @@
+#!/bin/bash
+set -xeuo pipefail
+# This script copies the manifests from the current directory
+# into their installed location.
+manifestdir=/usr/share/doc/bootc-base-imagectl/manifests
+# Recurse into the upstream manifest installation
+(cd fedora-bootc && ./install-manifests)
+# But remove the fedora specific ones
+rm -vf $manifestdir/fedora*.yaml
+install -D -m 0664 -t $manifestdir minimal.yaml standard.yaml
+# And install dependency manifests
+cp -a includes $manifestdir
+# Set the default
+ln -sf standard.yaml $manifestdir/default.yaml
