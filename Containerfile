@@ -24,6 +24,7 @@ RUN --mount=type=bind,from=builder,src=.,target=/var/tmp --mount=type=bind,rw=tr
 LABEL redhat.compose-id="CentOS-Stream-10-20250312.0"
 
 LABEL containers.bootc="1" \
+      org.opencontainers.image.version=10 \
       bootc.diskimage-builder="quay.io/centos-bootc/bootc-image-builder" \
       redhat.id="centos" \
       redhat.version-id="10"
