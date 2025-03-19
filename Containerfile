@@ -23,7 +23,10 @@ RUN --mount=type=bind,from=builder,src=.,target=/var/tmp --mount=type=bind,rw=tr
 # This is updated by renovate
 LABEL redhat.compose-id="CentOS-Stream-10-20250317.0"
 
+# Note for now we are also keeping the legacy ostree.bootable label too
+# so we can do direct upgrades from old bootc in RHEL 9.4.
 LABEL containers.bootc="1" \
+      ostree.bootable="1" \
       org.opencontainers.image.version=10 \
       bootc.diskimage-builder="quay.io/centos-bootc/bootc-image-builder" \
       redhat.id="centos" \
