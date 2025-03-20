@@ -1,7 +1,3 @@
-repos:
-  - baseos
-  - appstream
-
 packages:
  # To support builds *from* this host using entitled content
   - subscription-manager
