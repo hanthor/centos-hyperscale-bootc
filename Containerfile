@@ -31,3 +31,8 @@ LABEL containers.bootc="1" \
       bootc.diskimage-builder="quay.io/centos-bootc/bootc-image-builder" \
       redhat.id="centos" \
       redhat.version-id="10"
+# https://pagure.io/fedora-kiwi-descriptions/pull-request/52
+ENV container=oci
+# Make systemd the default
+STOPSIGNAL SIGRTMIN+3
+CMD ["/sbin/init"]
