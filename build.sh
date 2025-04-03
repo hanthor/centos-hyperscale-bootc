@@ -4,10 +4,6 @@ set -xeuo pipefail
 # Some sanity checks
 ./preflight.sh
 
-# Update rpm-ostree for https://issues.redhat.com/browse/RHEL-84351
-arch=$(arch)
-rpm -Uvh https://download.copr.fedorainfracloud.org/results/@CoreOS/continuous/centos-stream-10-${arch}/08799604-rpm-ostree/rpm-ostree-{,libs-,}2025.6.18.g5c9af091-1.el10.${arch}.rpm
-
 # Put our manifests into the builder image in the same location they'll be in the
 # final image.
 ./install-manifests
