@@ -5,7 +5,6 @@ build:
 .PHONY: lockfile
 lockfile:
 ifdef CI
-	git submodule update --init --recursive
+	./update_submodule.sh
 endif
 	./update-lockfile.sh
-	git submodule update --remote --merge
