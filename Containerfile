@@ -4,8 +4,9 @@
 
 # Note that because of how cachi2 manages the repo files, we can't
 # do the separate "repos container" pattern.
-FROM quay.io/centos/centos:stream10 as builder
+FROM quay.io/centoshyperscale/centos:stream10 as builder
 # skip gpgcheck due to gpgcheck="" in cachi2.repo
+USER root
 RUN dnf -y --nogpgcheck install rpm-ostree selinux-policy-targeted
 ARG MANIFEST=standard
 COPY . /src
