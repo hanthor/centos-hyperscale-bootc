@@ -2,6 +2,9 @@ repos:
   - baseos
   - appstream
   - epel
+  - centos-hyperscale-kernel
+  - centos-hyperscale
+  - centos-hyperscale-experimental
 
 packages:
  # To support builds *from* this host using entitled content
@@ -10,6 +13,11 @@ packages:
   - dnf-yum
  # dnf-bootc depends on libraries DNF needs for bootc integration
   - dnf-bootc
+ # epel-erelease is needed for the btrfs-progs package
+  - epel-release
+ # cenots-hyperscale is needed for the centos-hyperscale-kernel package
+ # Need btrfs-progs to support btrfs as a root filesystem
+  - btrfs-progs
 
 # Configuration for bootc
 postprocess:

@@ -4,7 +4,7 @@ baseurl=https://composes.stream.centos.org/stream-10/production/CentOS-Stream-10
 gpgcheck=1
 repo_gpgcheck=0
 enabled=1
-gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-centosofficial-SHA256
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-centosofficial-SHA256 # Check access
 
 [appstream]
 name=CentOS Stream - AppStream
@@ -12,4 +12,35 @@ baseurl=https://composes.stream.centos.org/stream-10/production/CentOS-Stream-10
 gpgcheck=1
 repo_gpgcheck=0
 enabled=1
-gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-centosofficial-SHA256
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-centosofficial-SHA256 # Check access
+
+[epel]
+name=Extra Packages for Enterprise Linux 10 - $basearch
+# metalink=https://mirrors.fedoraproject.org/metalink?repo=epel-10&arch=$basearch
+baseurl=http://mirror.freedif.org/fedora/epel/10.1/Everything/$basearch/
+gpgkey=https://dl.fedoraproject.org/pub/epel/RPM-GPG-KEY-EPEL-10
+gpgcheck=1
+repo_gpgcheck=0
+countme=1
+enabled=1
+
+[centos-hyperscale]
+name=CentOS Stream 10 - Hyperscale
+# metalink=https://mirrors.centos.org/metalink?repo=centos-hyperscale-sig-packages-main-10-stream&arch=$basearch&protocol=https,http
+baseurl=http://mirror.freedif.org/CentOS/SIGs/10-stream/hyperscale/$basearch/packages-main/
+gpgcheck=1
+priority=50
+enabled=1
+countme=1
+gpgkey=https://www.centos.org/keys/RPM-GPG-KEY-CentOS-SIG-HyperScale
+
+[centos-hyperscale-kernel]
+name=CentOS Stream 10 - Hyperscale Kernel
+# metalink=https://mirrors.centos.org/metalink?repo=centos-hyperscale-sig-packages-kernel-10-stream&arch=$basearch&protocol=https,http
+baseurl=http://mirror.freedif.org/CentOS/SIGs/10-stream/hyperscale/$basearch/packages-kernel/
+gpgcheck=1
+enabled=1
+countme=1
+priority=50
+gpgkey=https://www.centos.org/keys/RPM-GPG-KEY-CentOS-SIG-HyperScale
+

@@ -8,7 +8,7 @@ td=$(mktemp -d)
 ./install-manifests ${td}
 cp rpms.*.yaml *.repo ${td}
 cd ${td}
-rpm-lockfile-prototype rpms.in.yaml
+podman run --rm -v $(pwd):/data:Z -e releasever=10 localhost/rpm-lockfile-prototype:latest /data/rpms.in.yaml
 cd -
 cp ${td}/rpms.lock.yaml .
 rm -rf ${td}

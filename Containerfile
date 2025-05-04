@@ -4,7 +4,14 @@
 
 # Note that because of how cachi2 manages the repo files, we can't
 # do the separate "repos container" pattern.
-FROM quay.io/centoshyperscale/centos:stream10 as builder
+FROM quay.io/jreilly112/centoshyperscale:stream10 as builder
+
+RUN sed -i 's/\$releasever_major/10/g' /etc/yum.repos.d/epel.repo
+RUN sed -i \
+    -e 's|^[[:space:]]*metalink=.*|baseurl=http://mirror.freedif.org/fedora/epel/10.1/Everything/\$basearch/|' \
+    -e 's|^gpgkey=.*|gpgkey=https://dl.fedoraproject.org/pub/epel/RPM-GPG-KEY-EPEL-10|' \
+    /etc/yum.repos.d/epel.repo
+
 # skip gpgcheck due to gpgcheck="" in cachi2.repo
 USER root
 RUN dnf -y --nogpgcheck install rpm-ostree selinux-policy-targeted
@@ -13,14 +20,14 @@ COPY . /src
 WORKDIR /src
 # Sanity testing
 RUN echo starting build
-RUN --mount=type=cache,target=/workdir --mount=type=bind,rw=true,src=.,dst=/buildcontext,bind-propagation=shared \
-      /src/build.sh
+RUN --mount=type=bind,target=/workdir --mount=type=bind,rw,src=.,dst=/buildcontext,bind-propagation=shared \
+      /bin/sh -c "/src/build.sh && echo '--- Listing build context ---' && ls -l /buildcontext"
 
 # This pulls in the rootfs generated in the previous step
 FROM oci-archive:./out.ociarchive
 # Need to reference builder here to force ordering. But since we have to run
 # something anyway, we might as well cleanup after ourselves.
-RUN --mount=type=bind,from=builder,src=.,target=/var/tmp --mount=type=bind,rw=true,src=.,dst=/buildcontext,bind-propagation=shared rm -v /buildcontext/out.ociarchive
+RUN --mount=type=bind,from=builder,src=.,target=/var/tmp --mount=type=bind,rw,src=.,dst=/buildcontext,bind-propagation=shared rm -v /buildcontext/out.ociarchive
 # This is updated by renovate
 LABEL redhat.compose-id="CentOS-Stream-10-20250427.0"
 

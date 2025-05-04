@@ -13,6 +13,6 @@ install -m 0755 -t /usr/libexec fedora-bootc/bootc-base-imagectl
 /usr/libexec/bootc-base-imagectl list >/dev/null
 # Run the build script in the same way we expect custom images to do, and also
 # "re-inject" the manifests into the target, so secondary container builds can use it.
-/usr/libexec/bootc-base-imagectl build-rootfs --reinject --manifest=${MANIFEST} /target-rootfs
+/usr/libexec/bootc-base-imagectl build-rootfs --reinject --manifest=${MANIFEST} / /target-rootfs
 # Now for this we still rely on using a buildah version that predates https://github.com/containers/buildah/issues/5952
 rpm-ostree experimental compose build-chunked-oci --bootc --format-version=1 --rootfs /target-rootfs --output oci-archive:/buildcontext/out.ociarchive

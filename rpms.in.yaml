@@ -6,7 +6,5 @@ packages: []  # Defer to the tree file
 arches:
   - x86_64
   - aarch64
-  - ppc64le
-  - s390x
 context:
     rpmOstreeTreefile: standard.yaml
